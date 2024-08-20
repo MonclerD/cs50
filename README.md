@@ -1,3 +1,4 @@
 # cs50
 
-Lecture notes and Problem sets from Harvard University’s CS50 by David J. Malan.
+Lecture notes and Problem set solutions from Harvard University’s CS50.
+Lectured by David J. Malan.
