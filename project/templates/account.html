@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleHome.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="logo">Recipe Finder</a>
+            <ul class="navbar-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                {% if logged_in %}
+                    <li><a href="{{ url_for('account_status') }}">Account</a></li>
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a href="{{ url_for('recipe_search') }}">Recipe Search</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome, {{ user[1] }} {{ user[2] }}</h1>
+
+        <section>
+            <h2>Your Saved Recipes</h2>
+            {% if recipes %}
+                <ul class="recipe-list">
+                {% for recipe in recipes %}
+                    <li class="recipe-item">
+                        <h3>{{ recipe[1] }}</h3>
+                        <a href="{{ recipe[2] }}" target="_blank" class="recipe-link">View Recipe</a>
+                        <p>Added on: {{ recipe[3] }}</p>
+
+                        <form action="{{ url_for('delete_recipe', recipe_id=recipe[0]) }}" method="POST">
+                            <button type="submit" class="delete-button">Delete Recipe</button>
+                        </form>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't added any recipes yet. Search for recipes and add your favorites!</p>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2>Your Recipe Usage History</h2>
+            {% if usage_history %}
+                <ul class="usage-history-list">
+                {% for record in usage_history %}
+                    <li class="usage-history-item">
+                        <a href="{{ url_for('recipe_search') }}" class="usage-link">{{ record[0] }}</a> - Last used: {{ record[1] }}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't used any recipes yet. Start exploring recipes now!</p>
+            {% endif %}
+        </section>
+    </div>
+</body>
+</html>
+

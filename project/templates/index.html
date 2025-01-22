@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Recipe Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleHome.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="logo">Recipe Finder</a>
+            <ul class="navbar-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+
+                {% if logged_in %}
+                    <li><a href="{{ url_for('account_status') }}">Account</a></li>
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a href="{{ url_for('recipe_search') }}">Recipe Search</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Welcome to Recipe Finder</h1>
+        <p>Your go-to app for discovering recipes based on ingredients you have!</p>
+
+        <div class="cta">
+            <p>New here? <a href="{{ url_for('register') }}">Create an Account</a></p>
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+
+        <div class="features">
+            <h2>How it Works:</h2>
+            <ul>
+                <li>Sign up or log in to your account</li>
+                <li>Enter ingredients you have</li>
+                <li>Find recipes and start cooking!</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+

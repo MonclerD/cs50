@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Vote for a Candidate</h1>
+
+<!-- Display Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<form method="POST">
+    {% for candidate in candidates %}
+        <div>
+            <img src="{{ url_for('static', filename='images/' + candidate['image']) }}" alt="Candidate Image" width="100">
+            <input type="radio" id="candidate{{ candidate['id'] }}" name="candidate" value="{{ candidate['id'] }}" required>
+            <label for="candidate{{ candidate['id'] }}">{{ candidate['name'] }} ({{ candidate['party'] }})</label>
+        </div>
+    {% endfor %}
+    <button type="submit">Submit Vote</button>
+</form>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Register</h1>
+<form method="POST">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" required>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" required>
+
+    <label for="ssn">Social Security Number:</label>
+    <input type="text" id="ssn" name="ssn" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" name="phone" required>
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="state">State:</label>
+    <select name="state" id="state" required>
+        <option value="">Select State</option>
+    </select>
+
+    <label for="city">City:</label>
+    <select name="city" id="city" required>
+        <option value="">Select City</option>
+    </select>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Register</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Fetch states dynamically
+    $.get('/get_states', function(data) {
+        data.forEach(function(state) {
+            $('#state').append('<option value="' + state + '">' + state + '</option>');
+        });
+    });
+
+    // When the state is changed, fetch cities for the selected state
+    $('#state').on('change', function() {
+        var state = $(this).val();
+
+        // If no state is selected, clear the city options
+        if (state) {
+            $.get('/get_cities/' + state, function(data) {
+                $('#city').empty();
+                $('#city').append('<option value="">Select City</option>'); // Reset cities dropdown
+
+                // Add cities to the dropdown
+                data.forEach(function(city) {
+                    $('#city').append('<option value="' + city + '">' + city + '</option>');
+                });
+            });
+        } else {
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+        }
+    });
+</script>
+{% endblock %}

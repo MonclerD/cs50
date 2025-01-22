@@ -1,0 +1,93 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Live Vote Results</h1>
+
+<h2>U.S. Map with Voting Results</h2>
+<div class="us-map-container">
+    <object id="us-map" type="image/svg+xml" data="{{ url_for('static', filename='usa.svg') }}"></object>
+</div>
+
+<h2>Candidate Details:</h2>
+<ul>
+    {% for candidate in candidates %}
+    <li>
+        <img src="{{ url_for('static', filename='images/' + candidate['image']) }}" alt="Candidate Image" width="100">
+        <strong>{{ candidate['name'] }}</strong> ({{ candidate['party'] }}):
+        {{ candidate['votes'] }} votes ({{ candidate['percentage'] }}%)
+    </li>
+    {% endfor %}
+</ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const svgDoc = document.getElementById('us-map').contentDocument;
+
+        {% for state_code, data in state_colors.items() %}
+        const state = svgDoc.getElementById('US-{{ state_code }}');
+        if (state) {
+            // Set the color of the state based on the leading candidate
+            state.setAttribute('style', 'fill: {{ data["color"] }}');
+
+            // Add data for percentage to the state
+            const percentage = (data['color'] === 'red') ? '{{ data["trump_percentage"] }}%' :
+                               (data['color'] === 'blue') ? '{{ data["harris_percentage"] }}%' :
+                               'No Data';
+
+            state.setAttribute('data-state', '{{ data["name"] }}');
+            state.setAttribute('data-percentage', percentage);
+
+            // Optional: Add hover effect to show percentage on hover
+            state.addEventListener('mouseover', function() {
+                const tooltip = document.createElement('div');
+                tooltip.setAttribute('id', 'tooltip');
+                tooltip.innerHTML = '{{ data["name"] }}: ' + percentage;
+                tooltip.style.position = 'absolute';
+                tooltip.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                tooltip.style.color = 'white';
+                tooltip.style.padding = '5px';
+                tooltip.style.borderRadius = '5px';
+                tooltip.style.pointerEvents = 'none';  // Prevent blocking mouse events
+                document.body.appendChild(tooltip);
+
+                // Move tooltip along with the mouse
+                state.addEventListener('mousemove', function(e) {
+                    tooltip.style.left = (e.pageX + 10) + 'px';
+                    tooltip.style.top = (e.pageY + 10) + 'px';
+                });
+            });
+
+            state.addEventListener('mouseout', function() {
+                const tooltip = document.getElementById('tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            });
+        }
+        {% endfor %}
+    });
+</script>
+
+<style>
+    .us-map-container {
+        width: 800px;
+        height: auto;
+    }
+    #us-map {
+        width: 100%;
+        height: auto;
+    }
+    path {
+        stroke: #fff;
+        stroke-width: 1px;
+        cursor: pointer;
+    }
+    path:hover {
+        opacity: 0.8;
+    }
+    #tooltip {
+        z-index: 9999;  /* Ensure it stays on top of other elements */
+    }
+</style>
+
+{% endblock %}

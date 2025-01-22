@@ -1,0 +1,8 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>{{ message }}</h1>
+<form action="{{ redirect_url }}" method="GET">
+    <button type="submit">{{ button_label }}</button>
+</form>
+{% endblock %}

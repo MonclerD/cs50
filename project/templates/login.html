@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleHome.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="logo">Recipe Finder</a>
+            <ul class="navbar-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+
+                {% if logged_in %}
+                    <li><a href="{{ url_for('account_status') }}">Account</a></li>
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a href="{{ url_for('recipe_search') }}">Recipe Search</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            <h1>Login</h1>
+            <form method="POST">
+                <input type="email" name="email" placeholder="Enter your email" required><br>
+                <input type="password" name="password" placeholder="Enter your password" required><br>
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="cta">
+                <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
