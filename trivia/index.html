@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            function checkMultipleChoice(selectedAnswer, correctAnswer) {
+                const feedback = document.querySelector("#mc-feedback");
+                const buttons = document.querySelectorAll(".mc-button");
+
+                buttons.forEach(button => { button.style.backgroundColor = ""});
+
+                const selectedButton = document.querySelector(`#${selectedAnswer}`)
+
+                if (selectedAnswer === correctAnswer) {
+                    selectedButton.style.backgroundColor = "green";
+                    feedback.textContent = "Correct!";
+                    feedback.style.color = "green";
+                } else {
+                    selectedButton.style.backgroundColor = "red";
+                    feedback.textContent = "Incorrect";
+                    feedback.style.color = "red";
+                }
+            }
+
+            function checkFreeResponse() {
+                const input = document.querySelector("#free-response");
+                const feedback = document.querySelector("#fr-feedback");
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = "jurassic park";
+
+                if (userAnswer === correctAnswer) {
+                    input.style.backgroundColor = "green";
+                    feedback.textContent = "Correct!";
+                    feedback.style.color = "green";
+                } else {
+                    input.style.backgroundColor = "red";
+                    feedback.textContent = "Incorrect";
+                    feedback.style.color = "red";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                 <h3> Once a player on Harvard's squad, Jeremy Lin started a craze known as "Linsanity" in 2011 when he played for what Eastern Conference NBA team? </h3>
+                 <button id="option1" class="mc-button" onclick="checkMultipleChoice('option1', 'option3')">Boston Celtics</button>
+                 <button id="option2" class="mc-button" onclick="checkMultipleChoice('option2', 'option3')">Brooklyn Nets</button>
+                 <button id="option3" class="mc-button" onclick="checkMultipleChoice('option3', 'option3')">New York Knicks</button>
+                 <button id="option4" class="mc-button" onclick="checkMultipleChoice('option4', 'option3')">Philadelphia 76ers</button>
+                 <p id="mc-feedback"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                 <h3> Isla Nublar (off the coast of Costa Rica) is the setting for what famous 1990 Harvard-alum Michael Crichton book?</h3>
+                 <input type="text" id="free-response">
+                 <button onclick="checkFreeResponse()">Submit</button>
+                 <p id="fr-feedback"></p>
+            </div>
+        </div>
+    </body>
+</html>
