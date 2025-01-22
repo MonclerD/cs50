@@ -1,0 +1,19 @@
+-- If songs.db contains the top 100 songs of one listener from 2018, how would you characterize their audio aura?
+
+Audio Aura, by looking at the average energy, valence, and danceability.
+
+SELECT AVG(energy) FROM songs;
+AVG energy: 0.65906
+
+SELECT AVG(valence) FROM songs;
+AVG valence: 0.484443
+
+SELECT AVG(danceability) FROM songs;
+AVG danceability: 0.71646
+
+-- Hypothesize about why the way you’ve calculated this aura might not be very representative of the listener. What better ways of calculating this aura would you propose?
+
+The current method may not fully represent the listener's real audio aura like lack of context, limited metrics; energy,
+valence, and danceability alone might not capture the full emotional way of the listener's preferences.
+To improve the audio aura we can use/consider some tactics like weighted averages, seasonal trends, listener feedback, lyrics and genre, cluster analysis etc.
+
